@@ -3,12 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
 import nodemailer from 'nodemailer';
+import multer from 'multer';
 
+const upload = multer();
 dotenv.config();
 
 const app: Application = express();
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: '*' // Allow any origin
@@ -16,8 +18,12 @@ app.use(
 );
 
 // Route to handle form submissions
-app.post('/submit-form', async (req: Request, res: Response) => {
-  // Receive the name, email and message from the request body as FORM DATA
+app.post('/submit-form', upload.none(), async (req: Request, res: Response) => {
+  // Receive the name, email and message from the request body as FORM DATA string
+  // Example: name=asdf&email=adf%40asdf.com&message=sdfg
+
+  console.log(req.body);
+
   const { name, email, message } = req.body;
 
   console.log(chalk.green('Form submitted'));
