@@ -8,6 +8,7 @@ dotenv.config();
 
 const app: Application = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(
   cors({
     origin: '*' // Allow any origin
@@ -16,7 +17,7 @@ app.use(
 
 // Route to handle form submissions
 app.post('/submit-form', async (req: Request, res: Response) => {
-  // Extract form data from the request body
+  // Receive the name, email and message from the request body as FORM DATA
   const { name, email, message } = req.body;
 
   console.log(chalk.green('Form submitted'));
