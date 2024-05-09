@@ -26,6 +26,11 @@ app.post('/submit-form', upload.none(), async (req: Request, res: Response) => {
 
   const { name, email, message } = req.body;
 
+  if (!name || !email) {
+    console.log(chalk.red('Form submission error: Missing required fields'));
+    return res.status(400).send('Missing required fields');
+  }
+
   console.log(chalk.green('Form submitted'));
   console.table({ name, email, message });
 
